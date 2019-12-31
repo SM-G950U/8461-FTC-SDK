@@ -83,6 +83,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="SKYSTONE Vuforia Nav", group ="Autonomous")
+@Disabled
 public class vuForiaTest extends LinearOpMode {
 
     // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:

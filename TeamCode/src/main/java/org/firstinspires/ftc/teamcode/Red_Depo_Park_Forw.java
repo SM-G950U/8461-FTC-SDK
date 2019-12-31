@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Red_Depo_Park_Forw", group = "Autonomous")
+@Disabled
 public class Red_Depo_Park_Forw extends org.firstinspires.ftc.teamcode.Maincanum {
 
     @Override
