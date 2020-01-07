@@ -12,11 +12,11 @@ public class Blu_Foun_Park_Forw extends org.firstinspires.ftc.teamcode.Maincanum
 
         grabFReturn(false);
 
-        driveStrafe(45,false); //drive towards line
+        driveStrafe(25,false); //drive towards line
 
-        driveNormal(-27); // drive forwards out of way of other robot
+        driveNormal(-23); // drive forwards out of way of other robot
 
-        driveStrafe(10, false); // move onto line
+        driveStrafe(20, false); // move onto line
 
 
 

@@ -12,7 +12,7 @@ public class Blu_Foun_Park extends org.firstinspires.ftc.teamcode.Maincanum {
 
         grabFReturn(false);
 
-        driveStrafe(55,false); //move to line
+        driveStrafe(45,false); //move to line
 
 
 

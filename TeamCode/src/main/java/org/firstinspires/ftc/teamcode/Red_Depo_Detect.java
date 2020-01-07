@@ -205,6 +205,8 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
 
         driveStrafe(14,false); //move to scanning position
 
+        sleep(700);
+
 
 
 
@@ -249,20 +251,22 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
 
 
 
-            sleep(100);
 
-            if(blockLocation < 0 ){
+
+            sleep(700);
+
+            if(blockLocation < -50 ){
                 //skystone r4 - 8 - right left
                 detectedSkystone = 8;
                 stoneGrab();
 
 
-            }else if(blockLocation > 0 ){
+            }else if(blockLocation > -50 ||blockLocation < 50){
                 //skystone r5 - 10
                 detectedSkystone = 10;
                 stoneGrab();
 
-            }else{
+            }else if (blockLocation < 50){
                 //skystone r6 - 12
                 detectedSkystone = 12;
                 stoneGrab();

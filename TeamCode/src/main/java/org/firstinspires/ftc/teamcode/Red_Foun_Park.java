@@ -12,6 +12,6 @@ public class Red_Foun_Park extends org.firstinspires.ftc.teamcode.Maincanum {
 
         grabFReturn(true);
 
-        driveStrafe(55,true); //drive to line
+        driveStrafe(45,true); //drive to line
     }
 }

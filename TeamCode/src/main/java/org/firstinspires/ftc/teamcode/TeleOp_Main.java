@@ -41,10 +41,10 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
                 rightFront.setPower(rightFrontMecanum);
                 rightBack.setPower(rightBackMecanum);
             } else if (gamepad1.left_trigger > .5) { //when the left trigger is pressed, it slows the drivetrain
-                leftFront.setPower(leftFrontMecanum / 3);
-                leftBack.setPower(leftBackMecanum / 3);
-                rightFront.setPower(rightFrontMecanum / 3);
-                rightBack.setPower(rightBackMecanum / 3);
+                leftFront.setPower(leftFrontMecanum / 4);
+                leftBack.setPower(leftBackMecanum / 4);
+                rightFront.setPower(rightFrontMecanum / 4);
+                rightBack.setPower(rightBackMecanum / 4);
             } else { //when no triggers are pressed
                 leftFront.setPower(leftFrontMecanum / 1.5);
                 leftBack.setPower(leftBackMecanum / 1.5);

@@ -96,7 +96,7 @@ public abstract class Maincanum extends LinearOpMode {
     double drivingThreshold = 10; //# of counts robot is allowed to be off by, increase to allow more room for error, decrease to be more precise
     double strafingThreshold = 10; // same as above but specified for strafing for extra precision
 
-    double turningPower = 0.5; //Tune up if the robot needs to turn faster, and lower to turn slower
+    double turningPower = 0.4; //Tune up if the robot needs to turn faster, and lower to turn slower
 
     double drivingPower = 1; //Tune up if the robot needs to drive faster, and lower to drive slower
     double strafingPower = 1; //tune up if strafing is too slow, in ~.25 increments
@@ -209,7 +209,7 @@ public abstract class Maincanum extends LinearOpMode {
 
     RobotLog.i("Here we go again started (init)");
 
-    telemetry.addData("Ah s***, here we go again", "");
+    telemetry.addData("Ah man, here we go again", "");
             telemetry.update();
     }//init, call before everything
 
@@ -275,6 +275,78 @@ public abstract class Maincanum extends LinearOpMode {
 
 
 
+    public void driveNormalEdit(double distance){
+        RobotLog.i("Starting driveNormal");
+
+        double output = 0;
+
+        resetEncoders();
+
+        sleep(250);
+
+        runUsingEncoder();
+
+        inchesToCounts(distance);
+
+        setTargetPosition(counts);
+
+        if(counts > 0) {
+            telemetry.addData("Current counts", counts);
+            RobotLog.i("counts was above 0");
+            while (opModeIsActive() && leftBack.getCurrentPosition() < leftBack.getTargetPosition() - drivingThreshold && rightBack.getCurrentPosition() < rightBack.getTargetPosition() - drivingThreshold) {
+                double error = ((counts - leftBack.getCurrentPosition()));
+                // error is distance from where it should be
+
+                double a = (double) Math.abs(counts / 2);
+
+                output = ((((Math.abs(Math.abs(error) - a) / -a) + 1) + .10) / DRIVE_NORMAL_ACCEL);
+                /* take error, create accel curve. add .15 so it wont try to start at 0, and divide to reduce overshoot
+                 This was talked about in the programming channel of discord and I have since changed the 2 to a variable to make large changes easier.
+                */
+                //todo there will be much tuning here as soon as weight is added. Same with strafe
+
+                setPowers(output * drivingPower);
+                leftFront.setPower(output * drivingPower);
+                rightFront.setPower(output * (drivingPower+.1));
+                leftBack.setPower(output * drivingPower);
+                rightFront.setPower(output * (drivingPower+.1));
+
+                telemetry.addData("output", output);
+                telemetry.addData("power", leftBack.getPower());
+                telemetry.addData("error", error);
+
+                telemetry.update();
+            }
+            RobotLog.i("above 0 while loop has been exited");
+        } else {
+            telemetry.addData("Current counts", counts);
+            RobotLog.i("counts was not above 0");
+            while (opModeIsActive() && leftBack.getCurrentPosition() > leftBack.getTargetPosition() + drivingThreshold && rightBack.getCurrentPosition() > rightBack.getTargetPosition() + drivingThreshold) {
+                double error = (counts - leftBack.getCurrentPosition());
+
+                double a = (double) Math.abs(counts / 2);
+
+                output = ((((Math.abs(Math.abs(error) - a) / -a) + 1) + .10) / DRIVE_NORMAL_ACCEL);
+
+                setPowers(-output * drivingPower);
+
+                telemetry.addData("output", output);
+                telemetry.addData("power", leftBack.getPower());
+                telemetry.addData("error", error);
+
+                telemetry.update();
+            }
+            RobotLog.i("below 0 while loop has been exited");
+        }
+        sleep(500);
+        setPowers(0);
+        RobotLog.i("Finished driveNormal");
+
+
+
+
+    } // driveNormalEdit is made specifically for the red side backing up to the wall. It has the right side go faster
+
     public void driveNormal(double distance){
         RobotLog.i("Starting driveNormal");
 
@@ -334,14 +406,17 @@ public abstract class Maincanum extends LinearOpMode {
             }
             RobotLog.i("below 0 while loop has been exited");
         }
-
+        sleep(500);
         setPowers(0);
         RobotLog.i("Finished driveNormal");
 
 
 
 
-    } // driveNormal is officially done!
+    }
+
+
+
 
     public void driveStrafe(double distance, boolean strafeRight){
         double output = (0);
@@ -397,6 +472,7 @@ public abstract class Maincanum extends LinearOpMode {
 
                 telemetry.update();
             }
+
 
 
         }
@@ -471,13 +547,13 @@ public abstract class Maincanum extends LinearOpMode {
             double turnVariable;
 
             if (robotHeading() < angle) {
-                turnVariable = ((robotHeading() - angle) / 220) - .25;
+                turnVariable = ((robotHeading() - angle) / 220) - .3;
                 leftBack.setPower(-turningPower * turnVariable);
                 leftFront.setPower(-turningPower * turnVariable);
                 rightBack.setPower(turningPower * turnVariable);
                 rightFront.setPower(turningPower * turnVariable);
             } else {
-                turnVariable = ((robotHeading() - angle) / 220) + .25;
+                turnVariable = ((robotHeading() - angle) / 220) + .3;
                 leftBack.setPower(turningPower * turnVariable);
                 leftFront.setPower(turningPower * turnVariable);
                 rightBack.setPower(-turningPower * turnVariable);
@@ -552,46 +628,56 @@ public abstract class Maincanum extends LinearOpMode {
 
 
 
-    } //set the grabbers open/closed in one spot, //todo make all the auto use this.
+    } //set the grabbers open/closed in one spot, //todone make all the auto use this.
 
 
     public void grabFReturn(boolean is_red){
 
         if (is_red == true){
-            driveNormal(-16); //starting fwd
+            //----------RED----------
 
-            sleep(100); //wait for robot to stop moving
+            driveNormal(-22);                   //starting fwd
 
-            driveNormal(.1); //this keeps things from breaking for some reason
+            sleep(100);                      //wait for robot to stop moving
 
-            driveStrafe(14,false); // drive closer to the wall
+            driveStrafe(11,false);  // drive closer to the wall
 
-            sleep(100); //wait for stop
+            sleep(100);                     //wait for stop
 
-            driveNormal(-12); //get to the foundation
+            driveNormal(-13);                  //get to the foundation
 
-            setFGrabber(false); //move grabber
+            setFGrabber(false);                         //move grabber
 
-            sleep(500); //wait for grabber to move
+            sleep(500);                     //wait for grabber to move
 
-            driveNormal(33); //drive back to wall/starting point
+            driveNormalEdit(45);                   //drive back to wall/starting point
 
-            setFGrabber(true); //let go of foundation
+            setFGrabber(true);                          //let go of foundation
+
+            driveStrafe(15,true); //move while in contact with wall a small amount
+
+            driveNormal(-3);                  //move backwards go get away from wall
 
         }else{
-            driveNormal(-17); //move away from wall/starting fwd
+            //----------BLUE----------
+
+            driveNormal(-17);                  //move away from wall/starting fwd
 
             driveStrafe(13,true); //drive towards wall
 
-            driveNormal(-13); //go rest of the way to foundation
+            driveNormal(-13);                //go rest of the way to foundation
 
-            setFGrabber(false); //move grabbers
+            setFGrabber(false);                        //move grabbers
 
-            sleep(500); //wait for grabber to move
+            sleep(500);                    //wait for grabber to move
 
-            driveNormal(33); // move back to wall/starting point
+            driveNormal(45);                  // move back to wall/starting point
 
-            setFGrabber(true); //let go of foundation
+            setFGrabber(true);                         //let go of foundation
+
+            driveStrafe(14,false); //move while in contact with wall a small amount
+
+            driveNormal(-3);                //move backwards to get away from wall
 
         }
 
@@ -651,9 +737,9 @@ public abstract class Maincanum extends LinearOpMode {
     public void unfold(){
         // order is up, back servo down, front servo down, extend, lower
 
-        liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        liftPos = 660;                               //set target of motor for starting move up
+        liftPos = 800;                               //set target of motor for starting move up
         liftRaise.setTargetPosition((int) liftPos); //move to position
         liftRaise.setPower(.75);                    //set power for moving
         liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION); //start moving to pos
@@ -666,7 +752,7 @@ public abstract class Maincanum extends LinearOpMode {
 
         blockgrabAft.setPosition(.5);               //set back grabber straight down
         sleep(100);                     //wait for it to move
-        blockgrabFore.setPosition(0);               //set for grabber out flat
+        blockgrabFore.setPosition(0.2);               //set for grabber out flat
 
 
 
@@ -682,13 +768,51 @@ public abstract class Maincanum extends LinearOpMode {
             telemetry.addData("The detected block was ","8 or red left");
             telemetry.update();
 
-            unfold();                 //unfold
+            unfold();                                        //unfold
 
-            turn(90);          //face blok line
+            turn(90);                                 //face blok line
 
-            driveStrafe(14,true);
+            driveStrafe(11,false);       //align with red left/8 skystone
 
-            driveNormal(10);  //drive to blok line
+            blockgrabFore.setPosition(.2);                  //set front grabber to out flat
+            blockgrabAft.setPosition(.5);                   //and back to straight down
+
+            driveNormal(9);                         //drive to blok line
+
+            sleep(1500);
+
+            liftPos = 250;                                  //lower main arm, code block
+            liftRaise.setTargetPosition((int) liftPos);
+            liftRaise.setPower(.75);
+            liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(500);
+            liftRaise.setPower(0.025);
+
+            sleep(400);
+
+            blockgrabFore.setPosition(.65);                 //close claw and wait for it to close
+            blockgrabAft.setPosition(.35);
+            sleep(500);
+
+            liftPos = 660;                                   //raise main arm, code block
+            liftRaise.setTargetPosition((int) liftPos);
+            liftRaise.setPower(.75);
+            liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(500);
+            liftRaise.setPower(0.025);
+
+            driveNormal(-9);                       //move back to starting spot
+            driveStrafe(11,true);
+
+            turn(0);                              //face bridge
+
+            dropBlock(false);
+
+
+
+
+
+
 
 
         }else if (detectedSkystone == 10){
@@ -697,12 +821,98 @@ public abstract class Maincanum extends LinearOpMode {
             telemetry.addData("The detected block was ","10 or red left");
             telemetry.update();
 
+            unfold();
+
+            turn(90);                                  //face block line
+
+            blockgrabFore.setPosition(.2);                    //set front grabber to out flat
+            blockgrabAft.setPosition(.5);                    //and back to straight down
+
+            driveNormal(9);                          //drive to block line is we are already aligned with correct stone
+
+            sleep(1500);
+
+            liftPos = 250;                                     //lower main arm, code block
+            liftRaise.setTargetPosition((int) liftPos);
+            liftRaise.setPower(.75);
+            liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(500);
+            liftRaise.setPower(0.025);
+
+            sleep(400);                         //wait for everything to settle
+
+            blockgrabFore.setPosition(.65);                 //close claw and wait for it to close
+            blockgrabAft.setPosition(.35);
+            sleep(500);
+
+            liftPos = 660;                                 //raise main arm, code block
+            liftRaise.setTargetPosition((int) liftPos);
+            liftRaise.setPower(.75);
+            liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(500);
+            liftRaise.setPower(0.025);
+
+            driveNormal(-9);                    //move back to start point
+
+            turn(0);
+
+            dropBlock(false);
+
+
+
+
+
+
+
+
+
         }else if (detectedSkystone == 12){
             //red right
             RobotLog.i("Block 12, or red right was detected");
             telemetry.addData("The detected block was ","12 or red left");
             telemetry.update();
 
+            unfold();                                    //unfold
+
+            turn(90);                            //face blok line
+
+            driveStrafe(11,true);  //align with red left/8 skystone
+
+            blockgrabFore.setPosition(.2);               //set front grabber to out flat
+            blockgrabAft.setPosition(.5);               //and back to straight down
+
+            driveNormal(9);                   //drive to blok line
+
+            sleep(1500);
+
+            liftPos = 250;                              //lower main arm, code block
+            liftRaise.setTargetPosition((int) liftPos);
+            liftRaise.setPower(.75);
+            liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(500);
+            liftRaise.setPower(0.025);
+
+            sleep(400);
+
+            blockgrabFore.setPosition(.65);             //close claw and wait for it to close
+            blockgrabAft.setPosition(.35);
+            sleep(500);
+
+            liftPos = 660;                             //raise main arm, code block
+            liftRaise.setTargetPosition((int) liftPos);
+            liftRaise.setPower(.75);
+            liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(500);
+            liftRaise.setPower(0.025);
+
+            driveNormal(-9);//move back to starting spot
+            driveStrafe(11,false);
+
+            turn(0);                          //face bridge
+
+            dropBlock(false);
+
+        //----------BLUE BELOW THIS LINE----------//
         }else if (detectedSkystone == 7){
             //blu right
             RobotLog.i("Block 7, or blu right was detected");
@@ -722,11 +932,42 @@ public abstract class Maincanum extends LinearOpMode {
             telemetry.update();
 
         }else{
+            //no stone set
             RobotLog.e("stoneGrab ran with no set detected skystone");
             telemetry.addData("stonegrab ran with no detected stone","1");
             telemetry.update();
 
         }
+
+
+
+    }//set detectedSkystone then call this from detect point
+
+    public void dropBlock(boolean doubleSample){
+        liftPos = 250;                                   //lower main arm, code block
+        liftRaise.setTargetPosition((int) liftPos);
+        liftRaise.setPower(.75);
+        liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        sleep(500);
+        liftRaise.setPower(0.025);
+
+        driveNormal(20);                        //drieve to block drop point
+
+        blockgrabFore.setPosition(.2);                   //set front grabber to out flat
+        blockgrabAft.setPosition(.5);                    //and back to straight down
+    sleep(400);                             //wait for them to move
+
+        if (doubleSample == true){
+            driveNormal(20);
+                                                        //todo make option to sample wall blocks
+
+        }else{
+
+            driveNormal(5);                     //return to line
+
+
+        }
+
 
 
 
