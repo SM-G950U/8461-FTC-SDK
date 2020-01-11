@@ -565,6 +565,30 @@ public abstract class Maincanum extends LinearOpMode {
         setPowers(0);
     } //Warning: Turning may occur. Warning: Turning may not occur Warning:Turn is in wrong direction, it works
 
+    public void turnPOWER(double angle) {
+        runWithoutEncoder();
+
+        while (opModeIsActive() && Math.abs(robotHeading() - angle) > turningThreshold) {
+            double turnVariable;
+
+            if (robotHeading() < angle) {
+                turnVariable = ((robotHeading() - angle) / 220) - .3;
+                leftBack.setPower(-turningPower * turnVariable);
+                leftFront.setPower(-turningPower * turnVariable);
+                rightBack.setPower(turningPower * turnVariable);
+                rightFront.setPower(turningPower * turnVariable);
+            } else {
+                turnVariable = ((robotHeading() - angle) / 220) + .3;
+                leftBack.setPower(turningPower * turnVariable);
+                leftFront.setPower(turningPower * turnVariable);
+                rightBack.setPower(-turningPower * turnVariable);
+                rightFront.setPower(-turningPower * turnVariable);
+            }
+            telemetry.addData("Heading:", robotHeading());
+            telemetry.update();
+        }
+        setPowers(0);
+    } //Warning: Turning may occur. Warning: Turning may not occur Warning:Turn is in wrong direction, it works
 
 
     public void setTargetPosition(double counts) {
@@ -650,9 +674,13 @@ public abstract class Maincanum extends LinearOpMode {
 
             sleep(500);                     //wait for grabber to move
 
-            driveNormalEdit(45);                   //drive back to wall/starting point
+            driveNormalEdit(20);               //drive back to wall/starting point
+
+            turn(-90);
 
             setFGrabber(true);                          //let go of foundation
+
+            turn(0);
 
             driveStrafe(15,true); //move while in contact with wall a small amount
 
