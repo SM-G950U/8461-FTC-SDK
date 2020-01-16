@@ -676,11 +676,11 @@ public abstract class Maincanum extends LinearOpMode {
 
             driveNormalEdit(20);               //drive back to wall/starting point
 
-            turn(-90);
+            //turn(-90);
 
             setFGrabber(true);                          //let go of foundation
 
-            turn(0);
+            //turn(0);
 
             driveStrafe(15,true); //move while in contact with wall a small amount
 
@@ -705,7 +705,14 @@ public abstract class Maincanum extends LinearOpMode {
 
             driveStrafe(14,false); //move while in contact with wall a small amount
 
-            driveNormal(-3);                //move backwards to get away from wall
+            //driveNormal(-1);                //move backwards to get away from wall
+
+            setPowers(-.3);
+
+            sleep(250);
+
+            setPowers(0);
+
 
         }
 
