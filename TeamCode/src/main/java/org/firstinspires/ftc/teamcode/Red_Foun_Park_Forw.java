@@ -12,10 +12,12 @@ public class Red_Foun_Park_Forw extends org.firstinspires.ftc.teamcode.Maincanum
 
         grabFReturn(true);
 
-        driveStrafe(20,true); //strafe towards line
+        driveStrafeEdit(20,true); //strafe towards line
 
-        driveNormal(-20); //go forwards out of way of other robots
+        driveNormal(-14); //go forwards out of way of other robots
 
-        driveStrafe(20, true); // move onto line
+        driveStrafeEdit(22, true); // move onto line
+
+        
     }
 }

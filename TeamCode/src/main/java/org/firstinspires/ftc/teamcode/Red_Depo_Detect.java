@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -270,6 +271,79 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
                 //skystone r6 - 12
                 detectedSkystone = 12;
                 stoneGrab();
+
+            }else{
+                //cant see anything, retry
+                RobotLog.e("No Skystone Detecto, try again");
+                telemetry.addData("No block detected, retrying","");
+                telemetry.update();
+
+                //retun detect code
+                targetVisible = false;
+                for (VuforiaTrackable trackable : allTrackables) {
+                    if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                        telemetry.addData("Visible Target", trackable.getName());
+                        targetVisible = true;
+
+                        // getUpdatedRobotLocation() will return null if no new information is available since
+                        // the last time that call was made, or if the trackable is not currently visible.
+                        OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                        if (robotLocationTransform != null) {
+                            lastLocation = robotLocationTransform;
+                        }
+                        break;
+                    }
+                }
+
+                //Provide feedback as to where the robot is located (if we know).
+                if (targetVisible) {
+                    // express position (translation) of robot in inches.
+                    VectorF translation = lastLocation.getTranslation();
+                    telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f", translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+
+                    // express the rotation of the robot in degrees.
+                    Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                    telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                    blockLocation = (int) translation.get(1);
+                    RobotLog.i("Y Value:", translation.get(1));
+                }
+                else {
+                    telemetry.addData("Visible Target", "none");
+                    RobotLog.i("no target idiot");
+                }
+                telemetry.update();
+
+                RobotLog.i("On 2nd detect skystone was",(detectedSkystone));
+
+                if(blockLocation < -50 ){
+                    //skystone r4 - 8 - right left
+                    detectedSkystone = 8;
+                    stoneGrab();
+
+
+                }else if(blockLocation > -50 ||blockLocation < 50){
+                    //skystone r5 - 10
+                    detectedSkystone = 10;
+                    stoneGrab();
+
+                }else if (blockLocation < 50){
+                    //skystone r6 - 12
+                    detectedSkystone = 12;
+                    stoneGrab();
+
+                }else{
+                   //none try 2
+                   RobotLog.e("No block try 2, defaulting to red left/8");
+                   telemetry.addData("No detecto try 2, defaulting red middle/10","");
+                   detectedSkystone = 10;
+                   stoneGrab();
+
+
+                }
+
+
+
+
 
             }
 

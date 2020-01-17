@@ -62,6 +62,8 @@ public abstract class Maincanum extends LinearOpMode {
     Servo blockgrabFore;
     Servo blockgrabAft;
 
+    Servo cubeDrop;
+
     /*vision doge, bad
 
     public OpenCvCamera phoneCam;
@@ -201,10 +203,14 @@ public abstract class Maincanum extends LinearOpMode {
         rightFGrabber = hardwareMap.servo.get("rightFGrabber");
         leftFGrabber = hardwareMap.servo.get("leftFGrabber");
 
+        cubeDrop = hardwareMap.servo.get("cubeDrop");
+
         blockgrabFore = hardwareMap.servo.get("blockgrabFore");
         blockgrabAft = hardwareMap.servo.get("blockgrabAft");
     //set servo
         setFGrabber(true);
+
+        cubeDrop.setPosition(.5);
 
 
     RobotLog.i("Here we go again started (init)");
@@ -540,6 +546,133 @@ public abstract class Maincanum extends LinearOpMode {
      sleep(500);
     } //go sideways! strafeRight true means go right, and vis versa.
 
+    public void driveStrafeEdit(double distance, boolean strafeRight){
+        double output = (0);
+        RobotLog.i("starting drive strafe");
+
+        resetEncoders();
+
+        sleep(250);
+
+        runUsingEncoder();
+
+        inchesToCounts(distance);
+
+
+        //setTargetPosition(counts); regular drive only
+
+        if (strafeRight == true ){
+            // true means we are going right, false means left
+            RobotLog.i("strafe right was true");
+
+            telemetry.addData("strafe right true", "");
+            telemetry.update();
+
+
+
+
+
+            leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+            rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+            rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            setTargetPosition(counts);
+
+
+            while (opModeIsActive() && leftBack.getCurrentPosition() < leftBack.getTargetPosition() + strafingThreshold/* && rightBack.getCurrentPosition() < rightBack.getTargetPosition() - strafingThreshold*/){
+                double error = (counts - leftBack.getCurrentPosition());
+                //error is distance from where left back should be
+
+
+                double a = (double) Math.abs(counts / 2);
+                output = ((((Math.abs(Math.abs(error) - a) / -a) + 1) + .25) / DRIVE_STRAFE_ACCEL);
+                //create drive accell curve, make it not start at 0, and divide to change power
+
+                //setPowers(output * strafingPower);
+
+                leftBack.setPower(output * strafingPower);
+                leftFront.setPower(output * strafingPower);
+                rightFront.setPower(output * strafingPower/1.1);
+                rightBack.setPower(output * strafingPower);
+
+                //todo add random tripping
+
+                telemetry.addData("output", output);
+                telemetry.addData("power", leftBack.getPower());
+                telemetry.addData("error", error);
+                telemetry.addData("strafeRight true","");
+
+                telemetry.update();
+            }
+
+
+
+        }
+        else{
+            RobotLog.i("strafe right was false");
+
+            //telemetry.addData("strafe right false", "");
+            //telemetry.update();
+
+
+            //reverse the correct motors.
+            leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            setTargetPosition(counts);
+
+
+            RobotLog.i(String.valueOf(leftBack.getTargetPosition()));
+            RobotLog.i(String.valueOf(leftFront.getTargetPosition()));
+            RobotLog.i(String.valueOf(rightBack.getTargetPosition()));
+            RobotLog.i(String.valueOf(leftFront.getTargetPosition()));
+
+
+
+            while (opModeIsActive() && leftBack.getCurrentPosition() < leftBack.getTargetPosition() + strafingThreshold /*&& rightBack.getCurrentPosition() > rightBack.getTargetPosition() - strafingThreshold*/){
+                double error = (counts - leftBack.getCurrentPosition());
+                //error is distance from where left back should be
+
+
+
+                double a = (double) Math.abs(counts / 2);
+                output = ((((Math.abs(Math.abs(error) - a) / -a) + 1) + .25) / DRIVE_STRAFE_ACCEL);
+                //create drive accell curve, make it not start at 0, and divide to change power
+
+                //setPowers(output * strafingPower);
+
+                leftBack.setPower(output * strafingPower);
+                leftFront.setPower(output * strafingPower);
+                rightFront.setPower(output * strafingPower);
+                rightBack.setPower(output * strafingPower);
+
+                //todo add random tripping
+                telemetry.addData("output", output);
+                telemetry.addData("power", leftBack.getPower());
+                telemetry.addData("error", error);
+                telemetry.addData("strafeRight false","");
+
+                telemetry.update();
+                RobotLog.i("strafe left while loop complete");
+            }
+
+
+        }
+
+        setPowers(0);
+        RobotLog.i("end of strafe");
+
+        //after the strafe, reset the motors to forward
+        sleep(100);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        sleep(500);
+    } //go sideways! strafeRight true means go right, and vis versa.
+
     public void turn(double angle) {
         runWithoutEncoder();
 
@@ -664,27 +797,30 @@ public abstract class Maincanum extends LinearOpMode {
 
             sleep(100);                      //wait for robot to stop moving
 
-            driveStrafe(11,false);  // drive closer to the wall
+            driveStrafe(17,false);  // drive closer to the wall
 
             sleep(100);                     //wait for stop
 
             driveNormal(-13);                  //get to the foundation
 
-            setFGrabber(false);                         //move grabber
+            //setFGrabber(false);                       //move grabber
+            rightFGrabber.setPosition(.70);
 
             sleep(500);                     //wait for grabber to move
 
-            driveNormalEdit(20);               //drive back to wall/starting point
-
-            //turn(-90);
+            driveNormal(45);               //drive back to wall/starting point
 
             setFGrabber(true);                          //let go of foundation
 
-            //turn(0);
+            driveStrafeEdit(15,true); //move while in contact with wall a small amount
 
-            driveStrafe(15,true); //move while in contact with wall a small amount
+            //driveNormal(-3);                  //move backwards go get away from wall
 
-            driveNormal(-3);                  //move backwards go get away from wall
+            //setPowers(.3);
+
+            //sleep(200);
+
+            //setPowers(0);
 
         }else{
             //----------BLUE----------
@@ -839,7 +975,7 @@ public abstract class Maincanum extends LinearOpMode {
             driveNormal(-9);                       //move back to starting spot
             driveStrafe(11,true);
 
-            turn(0);                              //face bridge
+            //turn(0);                              //face bridge
 
             dropBlock(false);
 
@@ -889,7 +1025,7 @@ public abstract class Maincanum extends LinearOpMode {
 
             driveNormal(-9);                    //move back to start point
 
-            turn(0);
+            //turn(0);
 
             dropBlock(false);
 
@@ -943,7 +1079,7 @@ public abstract class Maincanum extends LinearOpMode {
             driveNormal(-9);//move back to starting spot
             driveStrafe(11,false);
 
-            turn(0);                          //face bridge
+            //turn(0);                          //face bridge
 
             dropBlock(false);
 
@@ -986,7 +1122,7 @@ public abstract class Maincanum extends LinearOpMode {
         sleep(500);
         liftRaise.setPower(0.025);
 
-        driveNormal(20);                        //drieve to block drop point
+        driveStrafeEdit(45,true);                        //drieve to block drop point
 
         blockgrabFore.setPosition(.2);                   //set front grabber to out flat
         blockgrabAft.setPosition(.5);                    //and back to straight down
@@ -998,7 +1134,8 @@ public abstract class Maincanum extends LinearOpMode {
 
         }else{
 
-            driveNormal(5);                     //return to line
+            //driveNormal(5);                     //return to line
+            driveStrafeEdit(5,false);
 
 
         }

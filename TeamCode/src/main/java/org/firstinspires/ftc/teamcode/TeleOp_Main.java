@@ -84,6 +84,16 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
 
             }
 
+            if (gamepad1.a || gamepad2.a){
+                cubeDrop.setPosition(0);
+
+
+
+
+            }else{
+                cubeDrop.setPosition(.5);
+            }
+
 
             liftExtender.setPower(-gamepad2.right_stick_y);
 
