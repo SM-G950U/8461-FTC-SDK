@@ -18,6 +18,6 @@ public class Red_Foun_Park_Forw extends org.firstinspires.ftc.teamcode.Maincanum
 
         driveStrafeEdit(22, true); // move onto line
 
-        
+
     }
 }

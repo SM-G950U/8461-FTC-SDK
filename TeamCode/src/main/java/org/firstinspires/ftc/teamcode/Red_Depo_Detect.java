@@ -229,6 +229,8 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
                 }
             }
 
+            sleep(100);
+
              //Provide feedback as to where the robot is located (if we know).
             if (targetVisible) {
                 // express position (translation) of robot in inches.
@@ -259,17 +261,20 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
             if(blockLocation < -50 ){
                 //skystone r4 - 8 - right left
                 detectedSkystone = 8;
+                RobotLog.i("Block Y:",blockLocation);
                 stoneGrab();
 
 
             }else if(blockLocation > -50 ||blockLocation < 50){
                 //skystone r5 - 10
                 detectedSkystone = 10;
+                RobotLog.i("Block Y:",blockLocation);
                 stoneGrab();
 
             }else if (blockLocation < 50){
                 //skystone r6 - 12
                 detectedSkystone = 12;
+                RobotLog.i("Block Y:",blockLocation);
                 stoneGrab();
 
             }else{
@@ -295,6 +300,9 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
                     }
                 }
 
+
+                sleep(100);
+
                 //Provide feedback as to where the robot is located (if we know).
                 if (targetVisible) {
                     // express position (translation) of robot in inches.
@@ -318,23 +326,27 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
                 if(blockLocation < -50 ){
                     //skystone r4 - 8 - right left
                     detectedSkystone = 8;
+                    RobotLog.i("Block Y:",blockLocation);
                     stoneGrab();
 
 
                 }else if(blockLocation > -50 ||blockLocation < 50){
                     //skystone r5 - 10
                     detectedSkystone = 10;
+                    RobotLog.i("Block Y:",blockLocation);
                     stoneGrab();
 
                 }else if (blockLocation < 50){
                     //skystone r6 - 12
                     detectedSkystone = 12;
+                    RobotLog.i("Block Y:",blockLocation);
                     stoneGrab();
 
                 }else{
                    //none try 2
                    RobotLog.e("No block try 2, defaulting to red left/8");
                    telemetry.addData("No detecto try 2, defaulting red middle/10","");
+                    RobotLog.i("Block Y:",blockLocation);
                    detectedSkystone = 10;
                    stoneGrab();
 

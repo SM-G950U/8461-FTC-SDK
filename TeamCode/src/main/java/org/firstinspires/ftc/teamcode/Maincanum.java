@@ -527,7 +527,7 @@ public abstract class Maincanum extends LinearOpMode {
                 telemetry.addData("strafeRight false","");
 
                 telemetry.update();
-                RobotLog.i("strafe left while loop complete");
+                //RobotLog.i("strafe left while loop complete");
             }
 
 
@@ -654,7 +654,7 @@ public abstract class Maincanum extends LinearOpMode {
                 telemetry.addData("strafeRight false","");
 
                 telemetry.update();
-                RobotLog.i("strafe left while loop complete");
+                //RobotLog.i("strafe left while loop complete");
             }
 
 
@@ -922,7 +922,7 @@ public abstract class Maincanum extends LinearOpMode {
         liftExtender.setPower(0);                   //make extender stop moving
 
         blockgrabAft.setPosition(.5);               //set back grabber straight down
-        sleep(100);                     //wait for it to move
+        sleep(50);                     //wait for it to move
         blockgrabFore.setPosition(0.2);               //set for grabber out flat
 
 
@@ -959,7 +959,7 @@ public abstract class Maincanum extends LinearOpMode {
             sleep(500);
             liftRaise.setPower(0.025);
 
-            sleep(400);
+            sleep(200);                        //wait for | prior 400
 
             blockgrabFore.setPosition(.65);                 //close claw and wait for it to close
             blockgrabAft.setPosition(.35);
@@ -989,7 +989,7 @@ public abstract class Maincanum extends LinearOpMode {
         }else if (detectedSkystone == 10){
             //red middle
             RobotLog.i("Block 10, or red middle was detected");
-            telemetry.addData("The detected block was ","10 or red left");
+            telemetry.addData("The detected block was ","10 or red middle");
             telemetry.update();
 
             unfold();
@@ -1010,7 +1010,7 @@ public abstract class Maincanum extends LinearOpMode {
             sleep(500);
             liftRaise.setPower(0.025);
 
-            sleep(400);                         //wait for everything to settle
+            sleep(200);                         //wait for everything to settle | prior 400
 
             blockgrabFore.setPosition(.65);                 //close claw and wait for it to close
             blockgrabAft.setPosition(.35);
@@ -1040,7 +1040,7 @@ public abstract class Maincanum extends LinearOpMode {
         }else if (detectedSkystone == 12){
             //red right
             RobotLog.i("Block 12, or red right was detected");
-            telemetry.addData("The detected block was ","12 or red left");
+            telemetry.addData("The detected block was ","12 or red right");
             telemetry.update();
 
             unfold();                                    //unfold
@@ -1063,7 +1063,7 @@ public abstract class Maincanum extends LinearOpMode {
             sleep(500);
             liftRaise.setPower(0.025);
 
-            sleep(400);
+            sleep(200);
 
             blockgrabFore.setPosition(.65);             //close claw and wait for it to close
             blockgrabAft.setPosition(.35);
@@ -1115,18 +1115,27 @@ public abstract class Maincanum extends LinearOpMode {
     }//set detectedSkystone then call this from detect point
 
     public void dropBlock(boolean doubleSample){
-        liftPos = 250;                                   //lower main arm, code block
+
+        liftExtender.setPower(.8);                  //make extender start moving
+        sleep(100);                     // wait for extender to move
+        liftExtender.setPower(0);                   //make extender stop moving
+
+
+        liftPos = 300;                                   //lower main arm, code block
         liftRaise.setTargetPosition((int) liftPos);
         liftRaise.setPower(.75);
         liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(500);
         liftRaise.setPower(0.025);
 
-        driveStrafeEdit(45,true);                        //drieve to block drop point
+        driveStrafeEdit(55,true);                        //drieve to block drop point
+
+        //turn(90);                                                     //re align with wall
 
         blockgrabFore.setPosition(.2);                   //set front grabber to out flat
         blockgrabAft.setPosition(.5);                    //and back to straight down
-    sleep(400);                             //wait for them to move
+    sleep(150);                             //wait for them to move
+
 
         if (doubleSample == true){
             driveNormal(20);
@@ -1134,8 +1143,9 @@ public abstract class Maincanum extends LinearOpMode {
 
         }else{
 
-            //driveNormal(5);                     //return to line
-            driveStrafeEdit(5,false);
+            driveNormal(-8);                     //return to wall
+
+            driveStrafeEdit(15,false); //return to line
 
 
         }
