@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Red_Foun_Park_Turn", group = "Autonomous")
+@Disabled
 public class Red_Foun_Park_Turn extends org.firstinspires.ftc.teamcode.Maincanum {
 
 

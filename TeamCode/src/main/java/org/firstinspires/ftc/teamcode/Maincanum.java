@@ -835,7 +835,7 @@ public abstract class Maincanum extends LinearOpMode {
 
             sleep(500);                    //wait for grabber to move
 
-            driveNormal(45);                  // move back to wall/starting point
+            driveNormal(43);                  // move back to wall/starting point
 
             setFGrabber(true);                         //let go of foundation
 
@@ -977,7 +977,7 @@ public abstract class Maincanum extends LinearOpMode {
 
             //turn(0);                              //face bridge
 
-            dropBlock(false);
+            dropBlockRed(false);
 
 
 
@@ -1027,7 +1027,7 @@ public abstract class Maincanum extends LinearOpMode {
 
             //turn(0);
 
-            dropBlock(false);
+            dropBlockRed(false);
 
 
 
@@ -1081,7 +1081,7 @@ public abstract class Maincanum extends LinearOpMode {
 
             //turn(0);                          //face bridge
 
-            dropBlock(false);
+            dropBlockRed(false);
 
         //----------BLUE BELOW THIS LINE----------//
         }else if (detectedSkystone == 7){
@@ -1114,7 +1114,7 @@ public abstract class Maincanum extends LinearOpMode {
 
     }//set detectedSkystone then call this from detect point
 
-    public void dropBlock(boolean doubleSample){
+    public void dropBlockRed(boolean doubleSample){
 
         liftExtender.setPower(.8);                  //make extender start moving
         sleep(100);                     // wait for extender to move
@@ -1146,6 +1146,15 @@ public abstract class Maincanum extends LinearOpMode {
             driveNormal(-8);                     //return to wall
 
             driveStrafeEdit(15,false); //return to line
+
+            liftExtender.setPower(-.8);                  //make extender start moving
+            sleep(200);                     // wait for extender to move
+            liftExtender.setPower(0);                   //make extender stop moving
+
+            blockgrabFore.setPosition(.5);
+            blockgrabAft.setPosition(.5);
+            sleep(100);
+
 
 
         }
