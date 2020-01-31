@@ -22,7 +22,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Blu_Depo_Detect", group = "Autonomous")
-@Disabled
 public class Blu_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
 
 
@@ -205,11 +204,14 @@ public class Blu_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
         waitForGo(); // what do you think
 
 
+        driveStrafe(16,false); //move to scanning position
 
 
 
 
 
+
+        sleep(1800);
 
         // check all the trackable targets to see which one (if any) is visible.
         targetVisible = false;
@@ -238,21 +240,26 @@ public class Blu_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
             telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             blockLocation = (int) translation.get(1);
-            RobotLog.i("Y Value:", translation.get(1));
+            RobotLog.i("Y Value/blockLocation:", translation.get(1));
         }
         else {
             telemetry.addData("Visible Target", "none");
             RobotLog.i("no target idiot");
         }
+        telemetry.addData("blockLocation/Y Value:",blockLocation);
         telemetry.update();
 
 
+        sleep(100);
+        RobotLog.i("blockLocation:", blockLocation);
 
 
 
 
-        sleep(5000);
 
+
+        sleep(50000);
+/*
         if(blockLocation > 0 ){
             //skystone b4
 
@@ -266,6 +273,6 @@ public class Blu_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
             //skystone b6
 
 
-        }
+        }*/
     }
 }

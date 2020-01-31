@@ -175,7 +175,7 @@ public abstract class Maincanum extends LinearOpMode {
 
     //public static int[] allTrackables;
 
-    List<VuforiaTrackable> allTrackables1 = new ArrayList<VuforiaTrackable>();
+    //List<VuforiaTrackable> allTrackables1 = new ArrayList<VuforiaTrackable>();
 
 
     public void hereWeGoAgain(){
@@ -778,11 +778,11 @@ public abstract class Maincanum extends LinearOpMode {
 
         }else{
             //close
-            leftFGrabber.setPosition(.30);
-            rightFGrabber.setPosition(.70);
 
         }
 
+        leftFGrabber.setPosition(.30);
+        rightFGrabber.setPosition(.70);
 
 
     } //set the grabbers open/closed in one spot, //todone make all the auto use this.

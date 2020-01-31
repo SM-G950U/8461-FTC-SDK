@@ -259,7 +259,7 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
             sleep(700);
 
             if(blockLocation < -50 ){
-                //skystone r4 - 8 - right left
+                //skystone r4 - 8 - red left
                 detectedSkystone = 8;
                 RobotLog.i("Block Y:",blockLocation);
                 stoneGrab();
