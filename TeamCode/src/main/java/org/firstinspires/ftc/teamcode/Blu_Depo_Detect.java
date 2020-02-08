@@ -204,7 +204,7 @@ public class Blu_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
         waitForGo(); // what do you think
 
 
-        driveStrafe(16,false); //move to scanning position
+        driveStrafe(17,false); //move to scanning position
 
 
 

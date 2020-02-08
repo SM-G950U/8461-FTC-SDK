@@ -59,6 +59,7 @@ public abstract class Maincanum extends LinearOpMode {
     Servo rightFGrabber;
     Servo leftFGrabber;
 
+    //blockgrabberFore/Front is the outside grabber on the new version. Aft is the inside
     Servo blockgrabFore;
     Servo blockgrabAft;
 
@@ -117,6 +118,19 @@ public abstract class Maincanum extends LinearOpMode {
 
 
     int blockLocation;
+
+    boolean manualPIVOTmode;
+
+    public static double encoderMin = 0;
+    public static double encoderMax = 1100;
+
+    public static double servoMin = .474;
+    public static double servoMax = .532;
+
+    double encoderOutput;
+
+    public static double encoderOutputRange = (2500 - 0); //max - min
+    public static double servoInputRange = (.532 - .474); //max - min
 
     //--------------- VuForia ---------------
 
@@ -264,6 +278,9 @@ public abstract class Maincanum extends LinearOpMode {
         leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+        //this is only run in autonomous init to preserve starting location across auto to tele
+        liftRaise.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
 

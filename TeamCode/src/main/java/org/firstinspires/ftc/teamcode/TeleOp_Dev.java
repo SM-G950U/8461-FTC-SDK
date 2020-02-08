@@ -24,11 +24,11 @@ public class TeleOp_Dev extends Maincanum {
         waitForGo();
 
         while (opModeIsActive()) {
-            double inputY = Math.abs(gamepad1.left_stick_y) > ACCEPTINPUTTHRESHOLD ? gamepad1.left_stick_y : 0;
-            double inputX = Math.abs(gamepad1.left_stick_x) > ACCEPTINPUTTHRESHOLD ? -gamepad1.left_stick_x : 0;
-            double inputC = Math.abs(gamepad1.right_stick_x) > ACCEPTINPUTTHRESHOLD ? -gamepad1.right_stick_x : 0;
+            //double inputY = Math.abs(gamepad1.left_stick_y) > ACCEPTINPUTTHRESHOLD ? gamepad1.left_stick_y : 0;
+            //double inputX = Math.abs(gamepad1.left_stick_x) > ACCEPTINPUTTHRESHOLD ? -gamepad1.left_stick_x : 0;
+            //double inputC = Math.abs(gamepad1.right_stick_x) > ACCEPTINPUTTHRESHOLD ? -gamepad1.right_stick_x : 0;
 
-            arcadeMecanum(inputY, inputX, inputC, leftFront, rightFront, leftBack, rightBack);
+            //arcadeMecanum(inputY, inputX, inputC, leftFront, rightFront, leftBack, rightBack);
 
             if (gamepad1.right_trigger > .5) { //when the right trigger is pressed, it speeds the drivetrain
                 leftFront.setPower(leftFrontMecanum);
@@ -89,10 +89,10 @@ public class TeleOp_Dev extends Maincanum {
                 cubeDrop.setPosition(.5);
             }
 
-
+            blockgrabFore.setPosition(gamepad2.left_stick_y);
             liftExtender.setPower(-gamepad2.right_stick_y);
 
-
+            /*
             //TODOne make this go faster, old ratio 1:60, new of 1:139
             if (liftPos >= 0 && liftPos <= 2500) {
 
@@ -116,6 +116,10 @@ public class TeleOp_Dev extends Maincanum {
 
             liftRaise.setTargetPosition((int) liftPos);
             liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);//main forklift lifting code
+            */
+
+
+
 
 
             telemetry.addData("liftPos:", liftPos);
@@ -123,6 +127,7 @@ public class TeleOp_Dev extends Maincanum {
             telemetry.addData("targetPos", liftRaise.getTargetPosition());
             telemetry.addData("leftFGrabber", leftFGrabber.getPosition());
             telemetry.addData("rightFGrabber", rightFGrabber.getPosition());
+            telemetry.addData("blockgrabFore/PIVOT:",blockgrabFore.getPosition());
             telemetry.update();
         }
 

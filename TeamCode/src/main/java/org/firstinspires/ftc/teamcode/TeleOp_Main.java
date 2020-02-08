@@ -65,7 +65,7 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             }
 
 
-            // grabber grabs
+            /* grabber grabs | old claw style
             if (gamepad1.left_bumper || gamepad2.left_bumper) {
                 blockgrabAft.setPosition(.8);
                 blockgrabFore.setPosition(.2);
@@ -82,9 +82,105 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
 
                 //grabber dont move
 
+            }*/
+
+
+
+            /*move grabber ARM/aft, cont mode. [UNUSED]
+            if (gamepad1.a || gamepad2.a){
+            //close ARM
+                blockgrabAft.setPosition(1);
+
+            }else if (gamepad1.y || gamepad2.y){
+            //open ARM
+                blockgrabAft.setPosition(0);
+
+
+            }else{
+            //dont move ARM
+                blockgrabAft.setPosition(.5);
+            }*/
+
+            //move grabber ARM/aft, set pos mode
+            if (gamepad1.a || gamepad2.a){
+            //close ARM
+                blockgrabAft.setPosition(1);
+
+            }else if (gamepad1.y || gamepad2.y){
+            //open ARM
+                blockgrabAft.setPosition(0);
+
+
+            }else{
+            //dont move ARM
+                //blockgrabAft.setPosition(.5);
             }
 
-            if (gamepad1.a || gamepad2.a){
+
+
+
+            /*move PIVOT/fore. cont mode
+            if (gamepad1.right_bumper || gamepad2.left_bumper){
+                //close PIVOT
+                blockgrabFore.setPosition(1);
+
+            }else if (gamepad1.left_bumper || gamepad2.left_bumper){
+                //open PIVOT
+                blockgrabFore.setPosition(0);
+
+
+            }else{
+                //dont move PIVOT
+                blockgrabFore.setPosition(.5);
+            }*/
+
+
+            if (gamepad1.x || gamepad2.x){          //enable or disable state of manual PIVOT level
+
+                sleep(30);
+
+                if (manualPIVOTmode == true){        //if on, turn off/off, turn on
+
+                    manualPIVOTmode = false;
+
+                }else {
+
+                    manualPIVOTmode = true;
+                }
+
+            }
+
+
+            if (manualPIVOTmode == true){
+                                                    //auto PIVOT level mode# Example Data
+                /*
+                encoderMin = 0;
+                encoderMax = 2500;
+
+                servoMin = .474;
+                servoMax = .532;
+                */
+
+                encoderOutput = liftRaise.getCurrentPosition();
+
+                encoderOutputRange = (1100 - 0); //max - min
+                servoInputRange = (.532 - .474); //max - min
+                blockgrabFore.setPosition((((encoderOutput - 0) * servoInputRange) / encoderOutputRange) + servoMin);
+                //todo invert servo output range one way or another
+                //telemetry.addData("PIVOT desired pos:",(((encoderOutput - 0) * servoInputRange) / encoderOutputRange) + servoMin);
+
+
+
+
+            }else {
+
+
+
+
+            }
+
+
+            if (gamepad1.b || gamepad2.b){
                 cubeDrop.setPosition(0);
 
 
@@ -93,6 +189,10 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             }else{
                 cubeDrop.setPosition(.5);
             }
+
+
+
+
 
 
             liftExtender.setPower(-gamepad2.right_stick_y);
@@ -128,6 +228,8 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             telemetry.addData("targetPos", liftRaise.getTargetPosition());
             telemetry.addData("leftFGrabber", leftFGrabber.getPosition());
             telemetry.addData("rightFGrabber", rightFGrabber.getPosition());
+            telemetry.addData("PIVOT autolevel manual mode=",manualPIVOTmode);
+            telemetry.addData("PIVOT desired pos:",(((encoderOutput - 0) * servoInputRange) / encoderOutputRange) + servoMin);
             telemetry.update();
         }
 
