@@ -81,6 +81,10 @@ public abstract class Maincanum extends LinearOpMode {
 
     double liftPos = 0; //variable for raising main forklift
 
+    double ARMPos = 0; //variable for manual ARM
+
+    double PIVOTPos = 0; //variable for manual PIVOT
+
     static final double COUNTS_PER_MOTOR_REV = 537.6; //NeveRest 20: 537.6, NeveRest 40: 1120, NeveRest 60: 1680, Bare NeveRest: 103
     static final double DRIVE_GEAR_REDUCTION = 1.0; //2.0 would be for speed, .5 would be for torque
     static final double WHEEL_DIAMETER_INCHES = 4.0; //If you manage to find wheels other than 4" change this
@@ -131,6 +135,8 @@ public abstract class Maincanum extends LinearOpMode {
 
     public static double encoderOutputRange = (2500 - 0); //max - min
     public static double servoInputRange = (.532 - .474); //max - min
+
+
 
     //--------------- VuForia ---------------
 

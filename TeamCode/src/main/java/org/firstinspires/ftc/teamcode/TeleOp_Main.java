@@ -99,7 +99,7 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             }else{
             //dont move ARM
                 blockgrabAft.setPosition(.5);
-            }*/
+            }
 
             //move grabber ARM/aft, set pos mode
             if (gamepad1.a || gamepad2.a){
@@ -114,7 +114,7 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             }else{
             //dont move ARM
                 //blockgrabAft.setPosition(.5);
-            }
+            }*/
 
 
 
@@ -135,6 +135,8 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             }*/
 
 
+
+
             if (gamepad1.x || gamepad2.x){          //enable or disable state of manual PIVOT level
 
                 sleep(30);
@@ -152,19 +154,13 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
 
 
             if (manualPIVOTmode == true){
-                                                    //auto PIVOT level mode# Example Data
-                /*
-                encoderMin = 0;
-                encoderMax = 2500;
+                //auto PIVOT level mode
 
-                servoMin = .474;
-                servoMax = .532;
-                */
 
                 encoderOutput = liftRaise.getCurrentPosition();
 
                 encoderOutputRange = (1100 - 0); //max - min
-                servoInputRange = (.532 - .474); //max - min
+                servoInputRange = (.332 - .424); //max - min
                 blockgrabFore.setPosition((((encoderOutput - 0) * servoInputRange) / encoderOutputRange) + servoMin);
                 //todo invert servo output range one way or another
                 //telemetry.addData("PIVOT desired pos:",(((encoderOutput - 0) * servoInputRange) / encoderOutputRange) + servoMin);
@@ -173,13 +169,85 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
 
 
             }else {
+                //manual
+
+                if (gamepad1.left_bumper || gamepad2.left_bumper) {
+                    PIVOTPos = PIVOTPos + 0.008;
+
+                } else if (gamepad1.right_bumper || gamepad2.right_bumper) {
+                    PIVOTPos = PIVOTPos - 0.008;
+
+                } else {
+                    //do nothing, leftover case [UNUSED]
+
+                }
+                if (PIVOTPos < 0) {
+
+                    PIVOTPos = PIVOTPos + .01;
+
+                } else if (PIVOTPos > .7) {
+
+                    PIVOTPos = PIVOTPos - .01;
+
+                } else {
+
+
+                    blockgrabFore.setPosition(PIVOTPos);
+                }
+            }
 
 
 
+            //ARM manual move
+
+            if (gamepad1.a||gamepad2.a){
+
+                blockgrabAft.setPosition(.69);
+
+
+            }else if (gamepad1.y||gamepad2.y){
+
+                blockgrabAft.setPosition(.21);
 
             }
 
 
+
+
+
+
+
+            /*if (gamepad1.a || gamepad2.a) {
+                ARMPos = ARMPos + 0.008;
+
+            } else if (gamepad1.y || gamepad2.y) {
+                ARMPos = ARMPos - 0.008;
+
+            } else {
+                //do nothing, leftover case [UNUSED]
+
+            }
+            if (ARMPos < 0) {
+
+                ARMPos = ARMPos + .01;
+
+            } else if (ARMPos > .7) {
+
+                ARMPos = ARMPos - .01;
+
+            } else {
+
+
+                blockgrabAft.setPosition(ARMPos);
+            }*/
+
+
+
+
+
+
+
+            //Cube dropper
             if (gamepad1.b || gamepad2.b){
                 cubeDrop.setPosition(0);
 
@@ -222,14 +290,19 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             liftRaise.setTargetPosition((int) liftPos);
             liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);//main forklift lifting code
 
-
+            telemetry.addData("-----LiftArm-----","");
             telemetry.addData("liftPos:", liftPos);
             telemetry.addData("power", liftRaise.getPower());
             telemetry.addData("targetPos", liftRaise.getTargetPosition());
+
+            telemetry.addData("-----FGrabber-----","");
             telemetry.addData("leftFGrabber", leftFGrabber.getPosition());
             telemetry.addData("rightFGrabber", rightFGrabber.getPosition());
+
+            telemetry.addData("-----Grabber-----","");
             telemetry.addData("PIVOT autolevel manual mode=",manualPIVOTmode);
             telemetry.addData("PIVOT desired pos:",(((encoderOutput - 0) * servoInputRange) / encoderOutputRange) + servoMin);
+            telemetry.addData("ARMPos desired pos:",ARMPos);
             telemetry.update();
         }
 
