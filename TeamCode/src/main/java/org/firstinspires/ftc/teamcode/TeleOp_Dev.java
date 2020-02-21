@@ -60,47 +60,25 @@ public class TeleOp_Dev extends Maincanum {
             }
 
 
-            // grabber grabs
-            if (gamepad1.left_bumper || gamepad2.left_bumper) {
-                blockgrabAft.setPosition(.8);
-                blockgrabFore.setPosition(.2);
-                //grabber open
 
+            if(gamepad2.b){
+                sleep(2000);
 
-            } else if (gamepad1.right_bumper || gamepad2.right_bumper) {
-                blockgrabAft.setPosition(.35);
-                blockgrabFore.setPosition(.65);
-                //grabber close
+                unfold();
 
-
-            } else {
-
-                //grabber dont move
 
             }
 
-            if (gamepad1.b){
-                cubeDrop.setPosition(0);
 
 
-
-
-            }else{
-                cubeDrop.setPosition(.5);
-            }
-
-            blockgrabFore.setPosition(gamepad2.left_stick_y);
-            liftExtender.setPower(-gamepad2.right_stick_y);
-
-            /*
-            //TODOne make this go faster, old ratio 1:60, new of 1:139
+            //TODO make this go faster, old ratio 1:60, new of 1:139
             if (liftPos >= 0 && liftPos <= 2500) {
 
-                if (gamepad1.y) {
+                if (gamepad2.left_stick_y < -.5) {
                     liftPos = liftPos + 4.5;
                     liftRaise.setPower(.75);
 
-                } else if (gamepad1.a) {
+                } else if (gamepad2.left_stick_y > .5) {
                     liftPos = liftPos - 4.5;
                     liftRaise.setPower(.25);
 
@@ -116,18 +94,22 @@ public class TeleOp_Dev extends Maincanum {
 
             liftRaise.setTargetPosition((int) liftPos);
             liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);//main forklift lifting code
-            */
 
 
-
-
-
+            telemetry.addData("-----X WILL MAKE ROBOT UNFOLD-DRIVE IS DISABLED-----","");
+            telemetry.addData("-----LiftArm-----","");
             telemetry.addData("liftPos:", liftPos);
             telemetry.addData("power", liftRaise.getPower());
             telemetry.addData("targetPos", liftRaise.getTargetPosition());
+
+            telemetry.addData("-----FGrabber-----","");
             telemetry.addData("leftFGrabber", leftFGrabber.getPosition());
             telemetry.addData("rightFGrabber", rightFGrabber.getPosition());
-            telemetry.addData("blockgrabFore/PIVOT:",blockgrabFore.getPosition());
+
+            telemetry.addData("-----Grabber-----","");
+            telemetry.addData("PIVOT autolevel manual mode=",manualPIVOTmode);
+            telemetry.addData("PIVOT desired pos:",blockgrabFore.getPosition());
+            telemetry.addData("ARMPos desired pos:",blockgrabAft.getPosition());
             telemetry.update();
         }
 

@@ -120,10 +120,11 @@ public abstract class Maincanum extends LinearOpMode {
     double rightBackMecanum = 0;
 
 
+    double blockgrabCalculated;
 
     int blockLocation;
 
-    boolean manualPIVOTmode;
+    boolean manualPIVOTmode = true;
 
     public static double encoderMin = 0;
     public static double encoderMax = 1100;
@@ -944,9 +945,9 @@ public abstract class Maincanum extends LinearOpMode {
         sleep(100);                     // wait for extender to move
         liftExtender.setPower(0);                   //make extender stop moving
 
-        blockgrabAft.setPosition(.5);               //set back grabber straight down
-        sleep(50);                     //wait for it to move
-        blockgrabFore.setPosition(0.2);               //set for grabber out flat
+        blockgrabAft.setPosition(0.3575);               //Set ARM open
+        blockgrabFore.setPosition(.441);             //Set PIVOT flat
+        sleep(50);                     //wait for them to move
 
 
 
