@@ -65,6 +65,9 @@ public abstract class Maincanum extends LinearOpMode {
 
     Servo cubeDrop;
 
+    Servo rightFArm;
+    Servo leftFArm;
+
     /*vision doge, bad
 
     public OpenCvCamera phoneCam;
@@ -228,8 +231,14 @@ public abstract class Maincanum extends LinearOpMode {
 
         blockgrabFore = hardwareMap.servo.get("blockgrabFore");
         blockgrabAft = hardwareMap.servo.get("blockgrabAft");
-    //set servo
+
+
+        rightFArm = hardwareMap.servo.get("rightFArm");
+        leftFArm = hardwareMap.servo.get("leftFArm");
+
+        //set servo
         setFGrabber(true);
+        setFArm(false);
 
         cubeDrop.setPosition(.5);
 
@@ -802,11 +811,31 @@ public abstract class Maincanum extends LinearOpMode {
 
         }else{
             //close
+            leftFGrabber.setPosition(.30);
+            rightFGrabber.setPosition(.70);
 
         }
 
-        leftFGrabber.setPosition(.30);
-        rightFGrabber.setPosition(.70);
+
+
+    } //set the grabbers open/closed in one spot, //todone make all the auto use this.
+
+
+    public void setFArm(boolean is_down){
+
+        if (is_down == true){
+            //up
+            rightFArm.setPosition(0);
+            leftFArm.setPosition(1);
+
+        }else{
+            //down
+
+            rightFArm.setPosition(.5);
+            leftFArm.setPosition(.5);
+        }
+
+
 
 
     } //set the grabbers open/closed in one spot, //todone make all the auto use this.

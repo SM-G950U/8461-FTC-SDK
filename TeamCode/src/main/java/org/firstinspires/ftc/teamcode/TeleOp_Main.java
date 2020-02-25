@@ -65,6 +65,22 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             }
 
 
+
+
+            if (gamepad1.dpad_left||gamepad2.dpad_left){
+
+                setFArm(false);
+
+            }
+
+
+            if (gamepad1.dpad_right||gamepad2.dpad_right){
+
+
+                setFArm(true);
+
+            }
+
             /* grabber grabs | old claw style
             if (gamepad1.left_bumper || gamepad2.left_bumper) {
                 blockgrabAft.setPosition(.8);

@@ -61,6 +61,20 @@ public class TeleOp_Dev extends Maincanum {
 
 
 
+            if (gamepad1.dpad_up){
+
+                setFArm(false);
+
+            }
+
+
+            if (gamepad1.dpad_down){
+
+
+                setFArm(true);
+
+            }
+
             if(gamepad2.b){
                 sleep(2000);
 
