@@ -46,19 +46,19 @@ public class Red_Foun_Turn_Park_Forw extends org.firstinspires.ftc.teamcode.Main
         setFArm(true);                              //move arms
         setFGrabber(false);                          //move grabber
 
-        driveStrafe(6,true);
+        driveStrafe(6,true);    //drive away from wall
 
-        driveNormal(30);
+        driveNormal(30);                    //drive towards start point
 
-        turnAbsolute(80);
+        turnAbsolute(80);                     //turn to face wall
 
-        setFArm(false);
-        setFGrabber(true);
-        sleep(100);
+        setFArm(false);                             //move arms
+        setFGrabber(true);                          //move grabber
+        sleep(100);                     //wait for move
 
-        driveNormal(35);
+        driveNormal(35);                   //drive to line
 
-        driveStrafe(10,true);
+        driveStrafe(10,true);   //drive to skybridge
 
 
 

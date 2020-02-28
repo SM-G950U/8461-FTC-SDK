@@ -27,6 +27,13 @@ public class Blu_Foun_Turn_Park_Forw extends org.firstinspires.ftc.teamcode.Main
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        hereWeGoAgain(); //init
+        hereWeGoAuto();  //autoinit
+        waitForGo();
+
+
+
         driveNormal(-22);                   //starting fwd
 
         sleep(100);                      //wait for robot to stop moving
@@ -40,19 +47,19 @@ public class Blu_Foun_Turn_Park_Forw extends org.firstinspires.ftc.teamcode.Main
         setFArm(true);                              //move arms
         setFGrabber(false);                          //move grabber
 
-        driveStrafe(6,false);
+        driveStrafe(12,false);   // move away from wall
 
-        driveNormal(30);
+        driveNormal(25);                    // move back to start
 
-        turnAbsolute(280);
+        turnAbsolute(280);                      //spin foundation
 
-        setFArm(false);
-        setFGrabber(true);
-        sleep(100);
+        setFArm(false);                                 //move arms
+        setFGrabber(true);                              //move grabbers
+        sleep(100);                         //wait for move
 
-        driveNormal(35);
+        driveNormal(35);                        //drive to line
 
-        driveStrafe(10,false);
+        //driveStrafe(10,false);
 
 
 

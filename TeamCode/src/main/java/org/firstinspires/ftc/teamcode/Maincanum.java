@@ -1044,7 +1044,7 @@ public abstract class Maincanum extends LinearOpMode {
         sleep(100);                     // wait for extender to move
         liftExtender.setPower(0);                   //make extender stop moving
 
-        blockgrabAft.setPosition(0.3575);               //Set ARM open
+        blockgrabAft.setPosition(.5);               //Set ARM open
         blockgrabFore.setPosition(.441);             //Set PIVOT flat
         sleep(50);                     //wait for them to move
 
