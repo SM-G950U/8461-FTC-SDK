@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Blu_Foun_Park", group = "Autonomous")
+@Disabled
 public class Blu_Foun_Park extends org.firstinspires.ftc.teamcode.Maincanum {
 
 

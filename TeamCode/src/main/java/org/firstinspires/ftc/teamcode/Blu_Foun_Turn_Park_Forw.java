@@ -21,23 +21,17 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Red_Foun_Turn_Park", group = "Autonomous")
-public class Red_Foun_Turn_Park extends org.firstinspires.ftc.teamcode.Maincanum {
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Blu_Foun_Turn_Park_Forw", group = "Autonomous")
+public class Blu_Foun_Turn_Park_Forw extends org.firstinspires.ftc.teamcode.Maincanum {
 
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        hereWeGoAgain(); //init
-        hereWeGoAuto();  //autoinit
-        waitForGo();
-
-
         driveNormal(-22);                   //starting fwd
 
         sleep(100);                      //wait for robot to stop moving
 
-        driveStrafe(11,false);  // drive closer to the wall
+        driveStrafe(11,true);  // drive closer to the wall
 
         sleep(100);                     //wait for stop
 
@@ -46,15 +40,19 @@ public class Red_Foun_Turn_Park extends org.firstinspires.ftc.teamcode.Maincanum
         setFArm(true);                              //move arms
         setFGrabber(false);                          //move grabber
 
-        driveStrafe(6,true);
+        driveStrafe(6,false);
 
         driveNormal(30);
 
-        turnPOWER(0);
+        turnAbsolute(280);
 
+        setFArm(false);
+        setFGrabber(true);
+        sleep(100);
 
+        driveNormal(35);
 
-
+        driveStrafe(10,false);
 
 
 

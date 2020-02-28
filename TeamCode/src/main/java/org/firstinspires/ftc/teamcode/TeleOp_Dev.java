@@ -21,6 +21,7 @@ public class TeleOp_Dev extends Maincanum {
     public void runOpMode() throws InterruptedException {
 
         hereWeGoAgain(); //init
+        hereWeGoAuto(); //turn testing
         waitForGo();
 
         while (opModeIsActive()) {
@@ -84,6 +85,27 @@ public class TeleOp_Dev extends Maincanum {
             }
 
 
+            if (gamepad1.b){
+
+                turnAbsolute(90);
+            }
+
+            if (gamepad1.x){
+
+
+                turnAbsolute(270);
+            }
+
+            if(gamepad1.y){
+
+                turnAbsolute(180);
+
+            }
+
+            if (gamepad1.a){
+
+                turnAbsolute(1);
+            }
 
             //TODO make this go faster, old ratio 1:60, new of 1:139
             if (liftPos >= 0 && liftPos <= 2500) {
@@ -109,8 +131,10 @@ public class TeleOp_Dev extends Maincanum {
             liftRaise.setTargetPosition((int) liftPos);
             liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);//main forklift lifting code
 
-
-            telemetry.addData("-----X WILL MAKE ROBOT UNFOLD-DRIVE IS DISABLED-----","");
+            telemetry.addData("-----TepeOp_Dev is for testing only. Use with caution-----","");
+            telemetry.addData("-----DRIVE IS DISABLED-FACE BUTTONS WILL MAKE ROBOT SPIN----","");
+            telemetry.addData("Robot heading:",robotHeading());
+            telemetry.addData("Robot heading absolute:",robotHeadingAbsolute());
             telemetry.addData("-----LiftArm-----","");
             telemetry.addData("liftPos:", liftPos);
             telemetry.addData("power", liftRaise.getPower());

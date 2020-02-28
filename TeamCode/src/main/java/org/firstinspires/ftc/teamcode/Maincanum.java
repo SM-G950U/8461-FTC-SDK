@@ -106,7 +106,7 @@ public abstract class Maincanum extends LinearOpMode {
     double drivingThreshold = 10; //# of counts robot is allowed to be off by, increase to allow more room for error, decrease to be more precise
     double strafingThreshold = 10; // same as above but specified for strafing for extra precision
 
-    double turningPower = 0.4; //Tune up if the robot needs to turn faster, and lower to turn slower
+    double turningPower = .8; //Tune up if the robot needs to turn faster, and lower to turn slower
 
     double drivingPower = 1; //Tune up if the robot needs to drive faster, and lower to drive slower
     double strafingPower = 1; //tune up if strafing is too slow, in ~.25 increments
@@ -123,9 +123,10 @@ public abstract class Maincanum extends LinearOpMode {
     double rightBackMecanum = 0;
 
 
-    double blockgrabCalculated;
 
     int blockLocation;
+
+    //--------------- AutoLevel ---------------
 
     boolean manualPIVOTmode = true;
 
@@ -139,6 +140,24 @@ public abstract class Maincanum extends LinearOpMode {
 
     public static double encoderOutputRange = (2500 - 0); //max - min
     public static double servoInputRange = (.532 - .474); //max - min
+
+    double blockgrabCalculated;
+
+
+    //--------------- TurnBetter ---------------
+
+    public static double IMUMin = -180;
+    public static double IMUMax = 180;
+
+    public static double absoluteAngleMin = 0;
+    public static double absoluteAngleMax = 360;
+
+    double IMUOutput;
+
+    public static double IMUOutputRange = (-180 - 180); //max - min
+    public static double absoluteAngleInputRange = (360 - 0); //max - min
+
+    double absoluteAngleCalculated;
 
 
 
@@ -418,6 +437,7 @@ public abstract class Maincanum extends LinearOpMode {
 
                 setPowers(output * drivingPower);
 
+                telemetry.addData("-----driveNormal-----","");
                 telemetry.addData("output", output);
                 telemetry.addData("power", leftBack.getPower());
                 telemetry.addData("error", error);
@@ -437,6 +457,7 @@ public abstract class Maincanum extends LinearOpMode {
 
                 setPowers(-output * drivingPower);
 
+                telemetry.addData("-----driveNormal-----","");
                 telemetry.addData("output", output);
                 telemetry.addData("power", leftBack.getPower());
                 telemetry.addData("error", error);
@@ -504,6 +525,7 @@ public abstract class Maincanum extends LinearOpMode {
 
                 //todo add random tripping
 
+                telemetry.addData("-----driveStrafe-----","");
                 telemetry.addData("output", output);
                 telemetry.addData("power", leftBack.getPower());
                 telemetry.addData("error", error);
@@ -554,6 +576,7 @@ public abstract class Maincanum extends LinearOpMode {
                 //rightBack.setPower(output * strafingPower);
 
                 //todo add random tripping
+                telemetry.addData("-----driveStrafe-----","");
                 telemetry.addData("output", output);
                 telemetry.addData("power", leftBack.getPower());
                 telemetry.addData("error", error);
@@ -631,6 +654,7 @@ public abstract class Maincanum extends LinearOpMode {
 
                 //todo add random tripping
 
+                telemetry.addData("-----driveStrafeEdit-----","");
                 telemetry.addData("output", output);
                 telemetry.addData("power", leftBack.getPower());
                 telemetry.addData("error", error);
@@ -681,6 +705,7 @@ public abstract class Maincanum extends LinearOpMode {
                 rightBack.setPower(output * strafingPower);
 
                 //todo add random tripping
+                telemetry.addData("-----driveStrafeEdit-----","");
                 telemetry.addData("output", output);
                 telemetry.addData("power", leftBack.getPower());
                 telemetry.addData("error", error);
@@ -725,11 +750,41 @@ public abstract class Maincanum extends LinearOpMode {
                 rightBack.setPower(-turningPower * turnVariable);
                 rightFront.setPower(-turningPower * turnVariable);
             }
+            telemetry.addData("-----turn-----","");
             telemetry.addData("Heading:", robotHeading());
             telemetry.update();
         }
         setPowers(0);
     } //Warning: Turning may occur. Warning: Turning may not occur Warning:Turn is in wrong direction, it works
+
+
+    public void turnAbsolute(double angle) {
+        runWithoutEncoder();
+
+        while (opModeIsActive() && Math.abs(robotHeadingAbsolute() - angle) > turningThreshold) {
+            double turnVariable;
+
+            if (robotHeadingAbsolute() < angle) {
+                turnVariable = ((robotHeadingAbsolute() - angle) / 220) - .3;
+                leftBack.setPower(-turningPower * turnVariable);
+                leftFront.setPower(-turningPower * turnVariable);
+                rightBack.setPower(turningPower * turnVariable);
+                rightFront.setPower(turningPower * turnVariable);
+            } else {
+                turnVariable = ((robotHeadingAbsolute() - angle) / 220) + .3;
+                leftBack.setPower(turningPower * turnVariable);
+                leftFront.setPower(turningPower * turnVariable);
+                rightBack.setPower(-turningPower * turnVariable);
+                rightFront.setPower(-turningPower * turnVariable);
+            }
+            telemetry.addData("-----turnAbsolute-----","");
+            telemetry.addData("Heading:", robotHeading());
+            telemetry.addData("Absolute Heading",robotHeadingAbsolute());
+            telemetry.update();
+        }
+        setPowers(0);
+    } //Warning: Turning may occur. Warning: Turning may not occur Warning:Turn is 0-360, old turn is kept for old programs that use it's brokenness. Robot starts at 180, do not go to 0, go to 1
+
 
     public void turnPOWER(double angle) {
         runWithoutEncoder();
@@ -750,6 +805,7 @@ public abstract class Maincanum extends LinearOpMode {
                 rightBack.setPower(-turningPower * turnVariable);
                 rightFront.setPower(-turningPower * turnVariable);
             }
+            telemetry.addData("-----turnPOWER-----","");
             telemetry.addData("Heading:", robotHeading());
             telemetry.update();
         }
@@ -917,6 +973,20 @@ public abstract class Maincanum extends LinearOpMode {
 
 
         return angles.firstAngle;
+    } //Get heading(angle) of robot
+
+
+    public double robotHeadingAbsolute() {
+        Orientation angles = IMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        IMUOutput = angles.firstAngle;
+
+        IMUOutputRange = (180 - -180); //max - min
+        absoluteAngleInputRange = (360 - 0); //max - min
+        absoluteAngleCalculated = (((IMUOutput - -180) * absoluteAngleInputRange) / IMUOutputRange) + absoluteAngleMin;
+
+
+        return absoluteAngleCalculated;
     } //Get heading(angle) of robot
 
 
