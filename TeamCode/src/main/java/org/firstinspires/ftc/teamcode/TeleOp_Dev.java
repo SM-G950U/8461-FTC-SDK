@@ -155,3 +155,100 @@ public class TeleOp_Dev extends Maincanum {
     }
 }
 
+
+
+
+//----- Old teleop comments-----
+/* grabber grabs | old claw style
+            if (gamepad1.left_bumper || gamepad2.left_bumper) {
+                blockgrabAft.setPosition(.8);
+                blockgrabFore.setPosition(.2);
+                //grabber open
+
+
+            } else if (gamepad1.right_bumper || gamepad2.right_bumper) {
+                blockgrabAft.setPosition(.35);
+                blockgrabFore.setPosition(.65);
+                //grabber close
+
+
+            } else {
+
+                //grabber dont move
+
+            }*/
+
+
+
+            /*move grabber ARM/aft, cont mode. [UNUSED]
+            if (gamepad1.a || gamepad2.a){
+            //close ARM
+                blockgrabAft.setPosition(1);
+
+            }else if (gamepad1.y || gamepad2.y){
+            //open ARM
+                blockgrabAft.setPosition(0);
+
+
+            }else{
+            //dont move ARM
+                blockgrabAft.setPosition(.5);
+            }
+
+            //move grabber ARM/aft, set pos mode
+            if (gamepad1.a || gamepad2.a){
+            //close ARM
+                blockgrabAft.setPosition(1);
+
+            }else if (gamepad1.y || gamepad2.y){
+            //open ARM
+                blockgrabAft.setPosition(0);
+
+
+            }else{
+            //dont move ARM
+                //blockgrabAft.setPosition(.5);
+            }*/
+
+
+
+
+            /*move PIVOT/fore. cont mode
+            if (gamepad1.right_bumper || gamepad2.left_bumper){
+                //close PIVOT
+                blockgrabFore.setPosition(1);
+
+            }else if (gamepad1.left_bumper || gamepad2.left_bumper){
+                //open PIVOT
+                blockgrabFore.setPosition(0);
+
+
+            }else{
+                //dont move PIVOT
+                blockgrabFore.setPosition(.5);
+            }*/
+
+
+               /*if (gamepad1.a || gamepad2.a) {
+                ARMPos = ARMPos + 0.008;
+
+            } else if (gamepad1.y || gamepad2.y) {
+                ARMPos = ARMPos - 0.008;
+
+            } else {
+                //do nothing, leftover case [UNUSED]
+
+            }
+            if (ARMPos < 0) {
+
+                ARMPos = ARMPos + .01;
+
+            } else if (ARMPos > .7) {
+
+                ARMPos = ARMPos - .01;
+
+            } else {
+
+
+                blockgrabAft.setPosition(ARMPos);
+            }*/

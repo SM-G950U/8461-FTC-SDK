@@ -268,6 +268,7 @@ public abstract class Maincanum extends LinearOpMode {
             telemetry.update();
     }//init, call before everything
 
+
     public void hereWeGoAuto(){
 
 
@@ -325,12 +326,12 @@ public abstract class Maincanum extends LinearOpMode {
 
     }
 
+
     public void waitForGo() {
         while (!opModeIsActive()&&!isStopRequested()) { telemetry.addData("Oh no, not this again. Do I really have to?", "");
             telemetry.update(); }
         RobotLog.i("I'm ready to go, but never enough");
     }//Call in all Autonomous OpModes
-
 
 
     public void driveNormalEdit(double distance){
@@ -405,6 +406,7 @@ public abstract class Maincanum extends LinearOpMode {
 
     } // driveNormalEdit is made specifically for the red side backing up to the wall. It has the right side go faster
 
+
     public void driveNormal(double distance){
         RobotLog.i("Starting driveNormal");
 
@@ -474,8 +476,6 @@ public abstract class Maincanum extends LinearOpMode {
 
 
     }
-
-
 
 
     public void driveStrafe(double distance, boolean strafeRight){
@@ -601,6 +601,7 @@ public abstract class Maincanum extends LinearOpMode {
 
      sleep(500);
     } //go sideways! strafeRight true means go right, and vis versa.
+
 
     public void driveStrafeEdit(double distance, boolean strafeRight){
         double output = (0);
@@ -730,6 +731,7 @@ public abstract class Maincanum extends LinearOpMode {
 
         sleep(500);
     } //go sideways! strafeRight true means go right, and vis versa.
+
 
     public void turn(double angle) {
         runWithoutEncoder();
@@ -965,8 +967,6 @@ public abstract class Maincanum extends LinearOpMode {
     }//entire sequence for
 
 
-
-    
     public double robotHeading() {
         Orientation angles = IMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -1044,8 +1044,8 @@ public abstract class Maincanum extends LinearOpMode {
         sleep(100);                     // wait for extender to move
         liftExtender.setPower(0);                   //make extender stop moving
 
-        blockgrabAft.setPosition(.5);               //Set ARM open
-        blockgrabFore.setPosition(.441);             //Set PIVOT flat
+        blockgrabAft.setPosition(0.3575);               //Set ARM open
+        blockgrabFore.setPosition(.5);             //Set PIVOT flat
         sleep(50);                     //wait for them to move
 
 
