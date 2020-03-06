@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import java.nio.channels.Pipe;
 import java.util.Arrays;
 
 /*
@@ -92,6 +93,7 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
 
                 if (manualPIVOTmode == true){        //if on, turn off/off, turn on
 
+                    PIVOTPos = blockgrabCalculated + .05;
                     manualPIVOTmode = false;
 
                 }else {
@@ -130,10 +132,10 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
                 //manual
 
                 if (gamepad1.a||gamepad2.y) {
-                    PIVOTPos = PIVOTPos + 0.008;
+                    PIVOTPos = PIVOTPos + 0.01;
 
                 } else if (gamepad1.y||gamepad2.a) {
-                    PIVOTPos = PIVOTPos - 0.008;
+                    PIVOTPos = PIVOTPos - 0.01;
 
                 } else {
                     //do nothing, leftover case [UNUSED]
@@ -150,9 +152,9 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
                 } else {
 
                     //limit upwards angle on pivot
-                    if (PIVOTPos > .441){
+                    if (PIVOTPos > .8){
 
-                        PIVOTPos = .441;
+                        PIVOTPos = .8;
 
                     }
                     blockgrabFore.setPosition(PIVOTPos);
@@ -164,12 +166,12 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             //ARM manual move
 
             if (gamepad1.right_bumper||gamepad2.right_bumper){
-
-                blockgrabAft.setPosition(1);
+                //close
+                blockgrabAft.setPosition(.8);
 
 
             }else if (gamepad1.left_bumper||gamepad2.left_bumper){
-
+                //open
                 blockgrabAft.setPosition(0.3575);
 
             }
@@ -191,6 +193,23 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
 
 
 
+            if (gamepad2.right_stick_button && gamepad2.left_stick_button){
+
+                telemetry.addData("RESET ENCODER STARTED-----PLEASE WAIT","");
+                liftRaise.setTargetPosition(-100);
+                liftRaise.setPower(.25);
+                sleep(500);
+
+                manualPIVOTmode = false;
+
+                liftRaise.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                sleep(100);
+
+            }
+
+
+
 
 
             liftExtender.setPower(-gamepad2.right_stick_y);
@@ -200,8 +219,8 @@ public class TeleOp_Main extends org.firstinspires.ftc.teamcode.Maincanum {
             if (liftPos >= 0 && liftPos <= 2500) {
 
                 if (gamepad2.left_stick_y < -.5) {
-                    liftPos = liftPos + 4.5;
-                    liftRaise.setPower(.75);
+                    liftPos = liftPos + 9;
+                    liftRaise.setPower(1);
 
                 } else if (gamepad2.left_stick_y > .5) {
                     liftPos = liftPos - 4.5;

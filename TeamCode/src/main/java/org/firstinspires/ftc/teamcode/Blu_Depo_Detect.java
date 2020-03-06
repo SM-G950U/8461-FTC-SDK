@@ -22,6 +22,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Blu_Depo_Detect", group = "Autonomous")
+@Disabled
 public class Blu_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
 
 

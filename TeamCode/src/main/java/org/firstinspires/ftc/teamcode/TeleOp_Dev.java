@@ -131,6 +131,8 @@ public class TeleOp_Dev extends Maincanum {
             liftRaise.setTargetPosition((int) liftPos);
             liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);//main forklift lifting code
 
+            blockgrabAft.setPosition(gamepad1.right_stick_x);
+
             telemetry.addData("-----TepeOp_Dev is for testing only. Use with caution-----","");
             telemetry.addData("-----DRIVE IS DISABLED-FACE BUTTONS WILL MAKE ROBOT SPIN----","");
             telemetry.addData("Robot heading:",robotHeading());

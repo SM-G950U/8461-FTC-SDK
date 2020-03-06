@@ -315,7 +315,7 @@ public abstract class Maincanum extends LinearOpMode {
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
-        //this is only run in autonomous init to preserve starting location across auto to tele
+        //this is only run in autonomous init to preserve starting location across auto to tele. Clicking both gp2 sticks will also reset
         liftRaise.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
@@ -890,7 +890,7 @@ public abstract class Maincanum extends LinearOpMode {
             //down
 
             rightFArm.setPosition(.5);
-            leftFArm.setPosition(.5);
+            leftFArm.setPosition(.29);
         }
 
 
@@ -1064,7 +1064,7 @@ public abstract class Maincanum extends LinearOpMode {
 
             unfold();                                        //unfold
 
-            turn(90);                                 //face blok line
+            turnAbsolute(90);                                 //face blok line
 
             driveStrafe(11,false);       //align with red left/8 skystone
 
@@ -1119,8 +1119,8 @@ public abstract class Maincanum extends LinearOpMode {
 
             turn(90);                                  //face block line
 
-            blockgrabFore.setPosition(.2);                    //set front grabber to out flat
-            blockgrabAft.setPosition(.5);                    //and back to straight down
+            blockgrabAft.setPosition(0.3575);               //Set ARM open
+            blockgrabFore.setPosition(.5);             //Set PIVOT flat
 
             driveNormal(9);                          //drive to block line is we are already aligned with correct stone
 
@@ -1153,6 +1153,53 @@ public abstract class Maincanum extends LinearOpMode {
             dropBlockRed(false);
 
 
+        }else if (detectedSkystone == 10){
+            //red right
+            RobotLog.i("Block 10, or red left was detected");
+            telemetry.addData("The detected block was ","12 or red left");
+            telemetry.update();
+
+            unfold();                                    //unfold
+
+            turn(90);                            //face blok line
+
+            driveStrafe(11,true);  //align with red left/8 skystone
+
+            blockgrabAft.setPosition(0.3575);               //Set ARM open
+            blockgrabFore.setPosition(.5);             //Set PIVOT flat
+
+            driveNormal(9);                   //drive to blok line
+
+            sleep(1500);
+
+            liftPos = 250;                              //lower main arm, code block
+            liftRaise.setTargetPosition((int) liftPos);
+            liftRaise.setPower(.75);
+            liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(500);
+            liftRaise.setPower(0.025);
+
+            sleep(200);
+
+            blockgrabFore.setPosition(.65);             //close claw and wait for it to close
+            blockgrabAft.setPosition(.35);
+            sleep(500);
+
+            liftPos = 660;                             //raise main arm, code block
+            liftRaise.setTargetPosition((int) liftPos);
+            liftRaise.setPower(.75);
+            liftRaise.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sleep(500);
+            liftRaise.setPower(0.025);
+
+            driveNormal(-9);//move back to starting spot
+            driveStrafe(11,false);
+
+            //turn(0);                          //face bridge
+
+            dropBlockRed(false);
+
+
 
 
 
@@ -1172,8 +1219,8 @@ public abstract class Maincanum extends LinearOpMode {
 
             driveStrafe(11,true);  //align with red left/8 skystone
 
-            blockgrabFore.setPosition(.2);               //set front grabber to out flat
-            blockgrabAft.setPosition(.5);               //and back to straight down
+            blockgrabAft.setPosition(0.3575);               //Set ARM open
+            blockgrabFore.setPosition(.5);             //Set PIVOT flat
 
             driveNormal(9);                   //drive to blok line
 

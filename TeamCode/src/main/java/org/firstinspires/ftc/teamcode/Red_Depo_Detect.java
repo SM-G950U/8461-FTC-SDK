@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.RobotLog;
 
@@ -22,6 +23,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Red_Depo_Detect", group = "Autonomous")
+@Disabled
 public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
 
 
@@ -204,7 +206,9 @@ public class Red_Depo_Detect extends org.firstinspires.ftc.teamcode.Maincanum {
         waitForGo(); // what do you think
 
 
-        driveStrafe(14,false); //move to scanning position
+        driveStrafeEdit(14,false); //move to scanning position
+
+        turnAbsolute(180);
 
         sleep(700);
 
