@@ -42,14 +42,14 @@ public class Blu_Foun_Turn_Park_Forw extends org.firstinspires.ftc.teamcode.Main
 
         sleep(100);                     //wait for stop
 
-        driveNormal(-13);                  //get to the foundation
+        driveNormal(-7);                  //get to the foundation originally 13
 
         setFArm(true);                              //move arms
         setFGrabber(false);                          //move grabber
 
         driveStrafe(12,false);   // move away from wall
 
-        driveNormal(25);                    // move back to start
+        driveNormal(19);                    // move back to start
 
         turnAbsolute(280);                      //spin foundation
 

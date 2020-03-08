@@ -41,14 +41,14 @@ public class Red_Foun_Turn_Park_Forw extends org.firstinspires.ftc.teamcode.Main
 
         sleep(100);                     //wait for stop
 
-        driveNormal(-13);                  //get to the foundation
+        driveNormal(-7);                  //get to the foundation originally 13
 
         setFArm(true);                              //move arms
         setFGrabber(false);                          //move grabber
 
         driveStrafe(6,true);    //drive away from wall
 
-        driveNormal(30);                    //drive towards start point
+        driveNormal(29);                    //drive towards start point
 
         turnAbsolute(80);                     //turn to face wall
 
