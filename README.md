@@ -1,6 +1,6 @@
 ## 8461 CODE REPO
 
-This repo *should* now have the latest version of our code, starting on 5.3, so it can be merged in the future as the newer sdk's get released. This probably won't work but as of 12-31-19 this is the most up to date. Everything below this line is part of the FTC provided stuff
+This is now the old code repo of the 2019-2020 season, preserved for who knows what.
 ________________________________________________________________________________________________________________________________
 
 
